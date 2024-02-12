@@ -1,5 +1,6 @@
 import { displayDropdownContent } from './dropdown.js'
 import { displayRecipesArticles } from './index.js'
+import { searchIngredients, searchAppliances, searchUstensils, mainSearch } from './search.js'
 /**
  * Pushes a filter into the specified array based on the given type.
  *
@@ -13,22 +14,22 @@ export const pushFilter = (array, type, filterToPush) => {
     case 'ingredients':
       array.ingredientsFilters.push(filterToPush)
       array.totalFilters.push(filterToPush)
-      // do search and update array
+      array = searchIngredients(array)
       break
     case 'appliances':
       array.appliancesFilters.push(filterToPush)
       array.totalFilters.push(filterToPush)
-      // do search and update array
+      array = searchAppliances(array)
       break
     case 'ustensils':
       array.ustensilsFilters.push(filterToPush)
       array.totalFilters.push(filterToPush)
-      // do search and update array
+      array = searchUstensils(array)
       break
     case 'mainSearch':
       array.mainFilters.push(filterToPush)
       array.totalFilters.push(filterToPush)
-      // do search and update array
+      array = mainSearch(array)
       break
     default:
       break
@@ -105,19 +106,19 @@ export const deleteFilter = (filter, array) => {
   }
 
   if (array.mainFilters.length > 0) {
-    // do search and update array
+    array = mainSearch(array)
   }
 
   if (array.ingredientsFilters.length > 0) {
-    // do search and update array
+    array = searchIngredients(array)
   }
 
   if (array.appliancesFilters.length > 0) {
-    // do search and update array
+    array = searchAppliances(array)
   }
 
   if (array.ustensilsFilters.length > 0) {
-    // do search and update array
+    array = searchUstensils(array)
   }
 
   displayDropdownContent(array)
