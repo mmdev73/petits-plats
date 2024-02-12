@@ -1222,12 +1222,12 @@ RECIPES
 
 .error__container {
   width: 80%;
-  height: 100px;
+  height: 6.25rem;
   margin: auto;
-  margin-bottom: 40px;
-  background-color: rgba(228, 137, 0, 0.2);
-  border-radius: 20px;
-  border: 1px solid rgb(228, 137, 0);
+  margin-bottom: 2.5rem;
+  background-color: rgba(228, 137, 0, 0.1);
+  border-radius: 1.25rem;
+  border: 0.0625rem solid rgb(228, 137, 0);
   display: flex;
   flex-flow: column;
   justify-content: center;
