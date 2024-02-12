@@ -1,5 +1,6 @@
 import { recipes } from '../data/recipes.js'
 import { toggleDropdownContent, displayDropdownContent } from './dropdown.js'
+import { normalizeText } from './functions.js'
 
 // Object which contains all bases and filtered list
 let refArray = {
@@ -102,3 +103,59 @@ dropdownBtn.forEach((btn) => {
 // When user arrive in website
 displayRecipesArticles(refArray)
 refArray = displayDropdownContent(refArray)
+
+// Event on inputs
+document.addEventListener('input', (e) => {
+  const iD = e.target.getAttribute('id')
+  const searchInput = normalizeText(e.target.value)
+  let targetIcon = ''
+  if (iD === 'input-srch') {
+    targetIcon = e.target.nextElementSibling.nextElementSibling
+  } else {
+    targetIcon = e.target.previousElementSibling.previousElementSibling
+  }
+  if (searchInput.length >= 3) {
+    switch (iD) {
+      case 'dropdown__ingredients':
+        targetIcon.classList.add('dropdown__icon--close-active')
+        displayDropdownContent(refArray, 'ingredients', searchInput)
+        break
+      case 'dropdown__appliances':
+        targetIcon.classList.add('dropdown__icon--close-active')
+        displayDropdownContent(refArray, 'appliances', searchInput)
+        break
+      case 'dropdown__ustensils':
+        targetIcon.classList.add('dropdown__icon--close-active')
+        displayDropdownContent(refArray, 'ustensils', searchInput)
+        break
+      case 'input-srch':
+        targetIcon.classList.add('inputsrch__box--close-active')
+        break
+      default:
+        break
+    }
+  }
+
+  if (searchInput.length < 3) {
+    targetIcon.classList.remove('dropdown__icon--close-active')
+    displayDropdownContent(refArray)
+  }
+})
+
+// event for reseting the main search input
+const btnCloseInputMainSearch = document.querySelector('.inputsrch__box--close')
+btnCloseInputMainSearch.addEventListener('click', (e) => {
+  btnCloseInputMainSearch.previousElementSibling.previousElementSibling.value = ''
+  btnCloseInputMainSearch.classList.remove('inputsrch__box--close-active')
+})
+
+// event for reseting dropdown's input
+const allBtnCloseDropdownInput = document.querySelectorAll('.dropdown__icon--close')
+allBtnCloseDropdownInput.forEach(item => {
+  item.addEventListener('click', (e) => {
+    item.nextElementSibling.nextElementSibling.value = ''
+    item.classList.remove('dropdown__icon--close-active')
+    const type = item.nextElementSibling.nextElementSibling.id.split('__')[1]
+    displayDropdownContent(refArray, type)
+  })
+})

@@ -83,9 +83,7 @@ export const displayDropdownContent = (array, type = null, search = false) => {
     return array
   }
   if (type !== null && search) {
-    genList(array, 'ingredients')
-    genList(array, 'appliances')
-    genList(array, 'ustensils')
+    genList(array, type, search)
     return array
   }
 }
@@ -117,7 +115,7 @@ const getAllBaseDropdownLists = (array) => {
  * @return {Array} The updated input array with the list elements
  */
 
-const genList = (array, type) => {
+const genList = (array, type, searchInput = false) => {
   let filtersArray = []
   let arrayToDisplay = []
   switch (type) {
@@ -135,6 +133,9 @@ const genList = (array, type) => {
       break
     default:
       break
+  }
+  if (searchInput) {
+    arrayToDisplay = arrayToDisplay.filter(filter => filter.includes(searchInput))
   }
   const idListItems = 'dropdown-list-' + type
   const idListItemsFilter = 'dropdown-list-' + type + '-filter'
