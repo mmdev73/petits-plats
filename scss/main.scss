@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*******************
+********************
+GLOBAL
+********************
+*******************/
+
+$font-anton:'Anton', sans-serif;
+$font-manrope:'Manrope', sans-serif;
+$yellow-custom: #FFD15B;
+$grey-custom: #7A7A7A;
+
+.font-manrope{
+    font-family: $font-manrope;
+}
+
+.font-anton{
+    font-family: $font-anton;
+}
+
+.text-yellow-custom{
+    color: $yellow-custom;
+}
+
+.bg-yellow-custom{
+    background-color: $yellow-custom;
+}
+/*******************
+********************
+HEADER
+********************
+*******************/
+.max-h-header{
+    height: 70%;
+}
+
+*{
+    font-family: $font-manrope;
+}
+
+.header{
+    z-index: 0;
+    height: 41.6875rem;
+    position: relative;
+    &__img{
+        height: 41.6875rem;
+    }
+    &__content{
+        background-color: rgba(0,0,0,0.4);
+    }
+}
+
+.inputsrch__box--close{
+    display: none;
+    cursor: pointer;
+    transition: 350ms;
+}
+
+.inputsrch__box--close-active{
+    display: block;
+    transition: 350ms;
+}
+
+#input-srch-btn:hover{
+    background-color: $yellow-custom;
+    transition: 350ms;    
+}
+
+#input-srch-btn:hover>i{
+    color: black;
+    transition: 350ms;    
+}
+/*******************
+********************
+FILTER
+********************
+*******************/
+.filter{
+    height: 4rem;
+    z-index: 10;
+    position: relative;
+    &__tag{
+        position: absolute;
+        top: 0.625rem;
+    }
+    &__recipesresult{
+        position: absolute;
+        top: 2%;
+        right: 0;
+    }
+}
+
+.dropdown{
+    height: fit-content;
+    &__btn{
+        height: 3.75rem;
+    }
+    &__search{
+        position: relative;
+    }
+    &__icon--close{
+        display: none;
+        position: absolute;
+        right: 20%;
+        top: 20%;
+        color: #bbbbbb;
+        cursor: pointer;
+    }
+    &__icon--close-active{
+        display: block;
+    }
+    &__icon--search{
+        position: absolute;
+        right: 5%;
+        top: 20%;
+        color: #bbbbbb;
+    }
+    &-subpart{
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: 400ms;
+    }   
+}
+
+.dropdown--active{
+    max-height: 15.938rem;
+    padding: 1rem;
+    transition: 400ms; 
+}
+
+.dropdown_list_filter{
+    padding: 0.313rem 0;
+}
+
+.dropdown__list__item{
+    min-height: 2.5rem;
+    padding-left: 0.125rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-transform: capitalize;    
+    &__filter{
+        min-height: 2.5rem;
+        margin-bottom: 0.202rem;
+        background-color: $yellow-custom;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+    }
+}
+
+.dropdown__list__item:hover{
+    background-color: $yellow-custom;
+    cursor: pointer;
+}
+
+.selected__filter__item{
+    height: 3.75rem;
+    width: auto;
+    margin-right: 0.938rem;
+    margin-bottom: 0.938rem;
+    background-color: $yellow-custom;
+    border-radius: 0.938rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    &__name{
+        margin-right: 1rem;
+        text-transform: capitalize;
+    }
+    &__close{
+        height: 1.5rem;
+        width: 1.5rem;
+        padding: 0.1rem;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 350ms;
+    }
+    &__close:hover{
+       background-color: black;
+       color: $yellow-custom;
+       transition: 350ms;     
+    }
+}
+/*******************
+********************
+RECIPES
+********************
+*******************/
+.recipes__box{
+    z-index: 0;
+}
+
+// RECIPE CARD
+.card{
+    width: 23.75rem;
+    margin-bottom: 4.125rem;
+    border-radius: 1rem;
+    background-color: white;
+    &__figure{
+        position: relative;
+        &__img{
+            height: 15.813rem;
+            width: 100%;
+            border-radius: 1rem 1rem 0 0;
+            object-fit: cover;
+        }
+        &__time{
+            height: 1.625rem;
+            width: 3.938rem;
+            position: absolute;
+            top: 1.375rem;
+            right: 1.375rem;
+            border-radius: 0.875rem;
+            background-color: $yellow-custom;
+            text-align: center;
+        }
+    }
+    &__content{
+        padding: 1.563rem 2rem;
+        &__title{
+            font-family: $font-anton;
+            font-size: 1.125rem;
+        }
+        &__subtitle{
+            margin-top: 1.8rem;
+            // font-size: 0.75rem; - taille maquette WTF?!
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            color: $grey-custom;
+        }
+        &__description{
+            height: 5.2rem;
+            margin-top: 0.938rem;
+            font-size: 0.875rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        &__ingredients{
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            &__item{
+                width: 50%;
+                margin-top: 1.313rem;
+                display: flex;
+                flex-flow: column;
+                &__name{
+                    font-weight: 600;
+                    line-height: normal;
+                }
+                &__qty{
+                    font-weight: 400;
+                    line-height: normal;
+                    color: $grey-custom;
+                }
+            }
+        }
+    }
+}
