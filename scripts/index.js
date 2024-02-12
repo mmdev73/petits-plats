@@ -1,4 +1,5 @@
 import { recipes } from '../data/recipes.js'
+import { toggleDropdownContent, displayDropdownContent } from './dropdown.js'
 
 // Object which contains all bases and filtered list
 let refArray = {
@@ -33,7 +34,6 @@ export const displayRecipesArticles = (array) => {
   if (array.totalFilters.length > 0) {
     recipesArray = array.filtered
   }
-  
   recipesArray.forEach((recipe) => {
     const imgName = recipe.image.split('.')
     const imgLink = './assets/recipes/' + imgName[0] + '.webp'
@@ -91,5 +91,14 @@ export const displayRecipesArticles = (array) => {
   recipesCount.textContent = recipesArray.length
 }
 
+const dropdownBtn = document.querySelectorAll('.dropdown__btn')
+dropdownBtn.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    const elemId = e.currentTarget.id
+    toggleDropdownContent(elemId)
+  })
+})
+
 // When user arrive in website
 displayRecipesArticles(refArray)
+refArray = displayDropdownContent(refArray)
