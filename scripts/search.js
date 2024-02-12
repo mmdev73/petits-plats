@@ -11,7 +11,6 @@ export const mainSearch = (array) => {
   if (array.totalFilters.length > 1) {
     baseArray = array.filtered
   }
-  console.log({ baseArray })
   baseArray = baseArray.filter((item) => {
     return array.mainFilters.every((filter) => {
       if (
@@ -21,7 +20,6 @@ export const mainSearch = (array) => {
         return true
       }
       return array.mainFilters.every((filter) => {
-        console.log(item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter)))
         return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
       })
     })

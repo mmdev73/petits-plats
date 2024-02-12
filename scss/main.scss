@@ -267,3 +267,26 @@ RECIPES
         }
     }
 }
+
+.error{
+    &__container{
+        width: 80%;
+        height: 100px;
+        margin: auto;
+        margin-bottom: 40px;
+        background-color: rgba(228, 137, 0, 0.2);
+        border-radius: 20px;
+        border: 1px solid rgb(228,137,0);
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &__title{
+        font-family: $font-anton;
+        font-size: 1.3rem;
+    }
+    &__text{
+        font-size: 1.2rem;
+    }
+}
