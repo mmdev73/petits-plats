@@ -1,4 +1,5 @@
 import { normalizeText } from './functions.js'
+import { pushFilter, displayGlobalFilters, deleteFilter } from './filters.js'
 /**
  * Toggles the chevron icon for the given element and updates other chevron icons accordingly.
  *
@@ -169,7 +170,9 @@ const nonFilterListItemComponent = (array, type, idListItems, item) => {
   document.getElementById(idListItems).appendChild(itemList)
   itemList.addEventListener('click', (e) => {
     const t = e.target
-    // do stuff here when filter is click
+    array = pushFilter(array, type, t.textContent)
+    displayDropdownContent(array, type)
+    displayGlobalFilters(array)
   })
   return array
 }
@@ -201,7 +204,7 @@ const filterListItemComponent = (array, type, idListItemsFilter, item) => {
   document.getElementById(idListItemsFilter).appendChild(itemList)
   itemListClose.addEventListener('click', (e) => {
     const t = e.currentTarget
-    // do stuff when close button on filter is clicked
+    deleteFilter(t.parentNode.textContent, array)
   })
   return array
 }

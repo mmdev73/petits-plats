@@ -1,6 +1,7 @@
 import { recipes } from '../data/recipes.js'
 import { toggleDropdownContent, displayDropdownContent } from './dropdown.js'
 import { normalizeText } from './functions.js'
+import { pushFilter } from './filters.js'
 
 // Object which contains all bases and filtered list
 let refArray = {
@@ -103,6 +104,26 @@ dropdownBtn.forEach((btn) => {
 // When user arrive in website
 displayRecipesArticles(refArray)
 refArray = displayDropdownContent(refArray)
+
+// Main search event listenner
+const mainSearchInput = document.getElementById('input-srch')
+mainSearchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (mainSearchInput.value.length > 0) {
+      document.getElementById('input-srch-btn').click()
+    }
+  }
+})
+
+const mainSearchButton = document.getElementById('input-srch-btn')
+mainSearchButton.addEventListener('click', (e) => {
+  const searchInput = normalizeText(mainSearchInput.value)
+  if (searchInput.length >= 3) {
+    refArray = pushFilter(refArray, 'mainSearch', searchInput)
+    mainSearchInput.value = ''
+    mainSearchInput.nextElementSibling.nextElementSibling.classList.remove('inputsrch__box--close-active')
+  }
+})
 
 // Event on inputs
 document.addEventListener('input', (e) => {
