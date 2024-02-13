@@ -31,6 +31,12 @@ refArray.base = JSON.parse(JSON.stringify(recipes))
 export const displayRecipesArticles = (array) => {
   const recipesBox = document.querySelector('.recipes__box')
   const recipesCount = document.getElementById('recipes-result')
+  // * Cosmetics
+  let recipesResultNumber = document.getElementById('recipes-result').textContent
+  if (recipesResultNumber === '-') {
+    recipesResultNumber = 0
+  }
+  // * ******************
   recipesBox.innerHTML = ''
   let recipesArray = array.base
   if (array.totalFilters.length > 0) {
@@ -105,7 +111,38 @@ export const displayRecipesArticles = (array) => {
     recipesBox.appendChild(errorContainer)
   }
 
-  recipesCount.textContent = recipesArray.length
+  // * Cosmetics
+  let timing = 10
+  switch (recipesResultNumber) {
+    case (recipesArray.length - recipesResultNumber) > 3 :
+      timing = 25
+      break
+    case (recipesArray.length - recipesResultNumber) > 5 :
+      timing = 20
+      break
+    case (recipesArray.length - recipesResultNumber) > 10 :
+      timing = 15
+      break
+    case (recipesArray.length - recipesResultNumber) > 20 :
+      timing = 10
+      break
+    case (recipesArray.length - recipesResultNumber) > 30 :
+      timing = 5
+      break
+  }
+  const intervalDisplay = setInterval(() => {
+    if (recipesResultNumber < recipesArray.length) {
+      recipesResultNumber++
+      recipesCount.textContent = recipesResultNumber
+    } else if (recipesResultNumber === recipesArray.length) {
+      clearInterval(intervalDisplay)
+    } else {
+      recipesResultNumber--
+      recipesCount.textContent = recipesResultNumber
+    }
+  }, timing)
+  // * ***************************
+  // recipesCount.textContent = recipesArray.length // Non cosmetics display
 }
 
 const dropdownBtn = document.querySelectorAll('.dropdown__btn')
