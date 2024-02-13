@@ -2,6 +2,7 @@ import { recipes } from '../data/recipes.js'
 import { toggleDropdownContent, displayDropdownContent } from './dropdown.js'
 import { normalizeText } from './functions.js'
 import { pushFilter } from './filters.js'
+import { generatedHashTable } from './dichotomiousSearch.js'
 
 // Object which contains all bases and filtered list
 let refArray = {
@@ -153,7 +154,9 @@ dropdownBtn.forEach((btn) => {
     toggleDropdownContent(elemId)
   })
 })
-
+// TODO: Dichtomious search
+refArray.base = generatedHashTable(refArray.base)
+console.log({ refArray })
 // When user arrive in website
 displayRecipesArticles(refArray)
 refArray = displayDropdownContent(refArray)

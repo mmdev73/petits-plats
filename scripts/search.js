@@ -13,15 +13,25 @@ export const mainSearch = (array) => {
   }
   baseArray = baseArray.filter((item) => {
     return array.mainFilters.every((filter) => {
-      if (
-        normalizeText(item.name).includes(normalizeText(filter)) ||
-          normalizeText(item.description).includes(normalizeText(filter))
-      ) {
-        return true
-      }
-      return array.mainFilters.every((filter) => {
-        return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
-      })
+      let found = false
+      let a = 0
+      let b = item.hashTab.length
+      do {
+        const m = Math.floor((a + b) / 2)
+        if (item.hashTab[m] === filter) {
+          found = true
+        }
+        if (item.hashTab[m] > filter) {
+          b = m - 1
+        }
+        if (item.hashTab[m] < filter) {
+          a = m + 1
+        }
+        if (a > b) {
+          found = false
+        }
+      } while (!found && (a < b))
+      return found
     })
   }
   )

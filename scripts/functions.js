@@ -47,3 +47,7 @@ export const normalizeText = (text) => {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
   return escapeHtml(stripslashes(text.toLowerCase())).trim().normalize('NFD')
 }
+
+export const keepLettersOnly = (text) => {
+  return text.replace(/[^a-zA-ZÀ-ÖØ-öøçû]/g, ' ')
+}
