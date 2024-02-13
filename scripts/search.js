@@ -11,21 +11,38 @@ export const mainSearch = (array) => {
   if (array.totalFilters.length > 1) {
     baseArray = array.filtered
   }
-  baseArray = baseArray.filter((item) => {
-    return array.mainFilters.every((filter) => {
+  const newArray = []
+  for (let i = 0; i < baseArray.length; i++) {
+    const recipe = baseArray[i]
+    const found = []
+    for (let j = 0; j < array.mainFilters.length; j++) {
+      const filter = array.mainFilters[j]
+      let isFound = false
       if (
-        normalizeText(item.name).includes(normalizeText(filter)) ||
-          normalizeText(item.description).includes(normalizeText(filter))
+        normalizeText(recipe.name).includes(normalizeText(filter)) ||
+        normalizeText(recipe.description).includes(normalizeText(filter))
       ) {
-        return true
+        isFound = true
       }
-      return array.mainFilters.every((filter) => {
-        return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
-      })
-    })
+      if (isFound) {
+        found.push(true)
+        continue
+      }
+      for (let k = 0; k < recipe.ingredients.length; k++) {
+        const ingredients = recipe.ingredients[k]
+        if (normalizeText(ingredients.ingredient).includes(normalizeText(filter))) {
+          isFound = true
+        }
+      }
+      if (isFound) {
+        found.push(true)
+      }
+    }
+    if (found.length === array.mainFilters.length && !found.includes(false)) {
+      newArray.push(recipe)
+    }
   }
-  )
-  array.filtered = baseArray
+  array.filtered = newArray
   return array
 }
 
@@ -40,12 +57,25 @@ export const searchIngredients = (array) => {
   if (array.totalFilters.length > 1) {
     baseArray = array.filtered
   }
-  const foundArray = baseArray.filter((item) => {
-    return array.ingredientsFilters.every((filter) => {
-      return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
-    })
-  })
-  array.filtered = foundArray
+  const newArray = []
+  for (let i = 0; i < baseArray.length; i++) {
+    const recipe = baseArray[i]
+    const found = []
+    for (let j = 0; j < array.ingredientsFilters.length; j++) {
+      const filter = array.ingredientsFilters[j]
+      for (let k = 0; k < recipe.ingredients.length; k++) {
+        const ingredients = recipe.ingredients[k]
+        if (normalizeText(ingredients.ingredient).includes(normalizeText(filter))) {
+          found.push(true)
+          break
+        }
+      }
+    }
+    if (found.length === array.ingredientsFilters.length) {
+      newArray.push(recipe)
+    }
+  }
+  array.filtered = newArray
   return array
 }
 
@@ -60,15 +90,22 @@ export const searchAppliances = (array) => {
   if (array.totalFilters.length > 1) {
     baseArray = array.filtered
   }
-  baseArray = baseArray.filter((item) => {
-    return array.appliancesFilters.every((filter) => {
-      if (normalizeText(item.appliance).includes(normalizeText(filter))) {
-        return true
+  const newArray = []
+  for (let i = 0; i < baseArray.length; i++) {
+    const recipe = baseArray[i]
+    const found = []
+    for (let j = 0; j < array.appliancesFilters.length; j++) {
+      const filter = array.appliancesFilters[j]
+      if (normalizeText(recipe.appliance).includes(normalizeText(filter))) {
+        found.push(true)
+        break
       }
-      return false
-    })
-  })
-  array.filtered = baseArray
+    }
+    if (found.length === array.appliancesFilters.length) {
+      newArray.push(recipe)
+    }
+  }
+  array.filtered = newArray
   return array
 }
 
@@ -83,11 +120,24 @@ export const searchUstensils = (array) => {
   if (array.totalFilters.length > 1) {
     baseArray = array.filtered
   }
-  baseArray = baseArray.filter((item) => {
-    return array.ustensilsFilters.every((filter) => {
-      return item.ustensils.some(ustensil => normalizeText(ustensil) === normalizeText(filter))
-    })
-  })
-  array.filtered = baseArray
+  const newArray = []
+  for (let i = 0; i < baseArray.length; i++) {
+    const recipe = baseArray[i]
+    const found = []
+    for (let j = 0; j < array.ustensilsFilters.length; j++) {
+      const filter = array.ustensilsFilters[j]
+      for (let k = 0; k < recipe.ustensils.length; k++) {
+        const ustensil = recipe.ustensils[k]
+        if (normalizeText(ustensil).includes(normalizeText(filter))) {
+          found.push(true)
+          break
+        }
+      }
+    }
+    if (found.length === array.ustensilsFilters.length) {
+      newArray.push(recipe)
+    }
+  }
+  array.filtered = newArray
   return array
 }

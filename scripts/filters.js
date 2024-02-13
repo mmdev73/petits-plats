@@ -104,9 +104,8 @@ export const deleteFilter = (filter, array) => {
   if (indexFilteredMainSearch !== -1) {
     array.mainFilters.splice(indexFilteredMainSearch, 1)
   }
-  if (array.filtered.length === 0) {
-    array.filtered = array.base
-  }
+  //  Revert to the original array because the filtered list no longer matches the filters
+  array.filtered = array.base
 
   if (array.mainFilters.length > 0) {
     array = mainSearch(array)
