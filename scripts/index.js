@@ -62,16 +62,16 @@ export const displayRecipesArticles = (array) => {
       figureDOM.appendChild(figcaptionDOM)
       const contentDOM = document.createElement('div')
       contentDOM.classList.add('card__content')
-      const titleDOM = document.createElement('h3')
+      const titleDOM = document.createElement('h2')
       titleDOM.classList.add('card__content__title')
       titleDOM.textContent = recipe.name
-      const subtitleDOM = document.createElement('h2')
+      const subtitleDOM = document.createElement('h3')
       subtitleDOM.classList.add('card__content__subtitle')
       subtitleDOM.textContent = 'Recette'
       const descriptionDOM = document.createElement('p')
       descriptionDOM.classList.add('card__content__description')
       descriptionDOM.textContent = recipe.description
-      const ingredientsTitleDOM = document.createElement('h2')
+      const ingredientsTitleDOM = document.createElement('h3')
       ingredientsTitleDOM.classList.add('card__content__subtitle')
       ingredientsTitleDOM.textContent = 'Ingrédients'
       const ingredientsListDOM = document.createElement('ul')
