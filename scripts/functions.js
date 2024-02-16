@@ -27,14 +27,17 @@ const stripslashes = (s) => {
  */
 const escapeHtml = (text) => {
   const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
+    '&': '',
+    '<': '',
+    '>': '',
+    '"': '',
+    "'": '',
+    '/': '',
+    '`': '',
+    '=': ''
   }
 
-  return text.replace(/[&<>"']/g, function (m) { return map[m] })
+  return text.replace(/[&<>"'/`=]/g, function (m) { return map[m] })
 }
 
 /**
@@ -48,6 +51,26 @@ export const normalizeText = (text) => {
   return escapeHtml(stripslashes(text.toLowerCase())).trim().normalize('NFD')
 }
 
+/**
+ * Replaces non-letter characters with spaces in the input text.
+ *
+ * @param {string} text - The input text to process
+ * @return {string} The text with non-letter characters replaced by spaces
+ */
 export const keepLettersOnly = (text) => {
-  return text.replace(/[^a-zA-ZÀ-ÖØ-öøçû]/g, ' ')
+  return text.replace(/[^a-zA-ZÀ-ÖØ-öøçû]/g, '').replace(/\s/g, '')
+}
+
+/**
+ * Calculates the hash value of the input text by summing the ASCII codes of its characters.
+ *
+ * @param {string} text - The input text to calculate the hash value for
+ * @return {number} The calculated hash value of the input text
+ */
+export const hashFilter = (text) => {
+  let hash = 0
+  for (let i = 0; i < text.length; i++) {
+    hash += text.charCodeAt(i)
+  }
+  return hash % 100
 }

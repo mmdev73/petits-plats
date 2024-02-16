@@ -1,4 +1,5 @@
 import { displayDropdownContent } from './dropdown.js'
+import { normalizeText } from './functions.js'
 import { displayRecipesArticles } from './index.js'
 import { searchIngredients, searchAppliances, searchUstensils, mainSearch } from './search.js'
 /**
@@ -10,6 +11,7 @@ import { searchIngredients, searchAppliances, searchUstensils, mainSearch } from
  * @return {Array} The updated array with the filter pushed
  */
 export const pushFilter = (array, type, filterToPush) => {
+  let isFirstFilter = null
   switch (type) {
     case 'ingredients':
       array.ingredientsFilters.push(filterToPush)
@@ -27,9 +29,20 @@ export const pushFilter = (array, type, filterToPush) => {
       array = searchUstensils(array)
       break
     case 'mainSearch':
-      array.mainFilters.push(filterToPush)
-      array.totalFilters.push(filterToPush)
-      array = mainSearch(array)
+      isFirstFilter = !((array.totalFilters.length > 0))
+      normalizeText(filterToPush).split(' ').forEach((item) => {
+        if (item.length >= 3) {
+          if (!array.mainFilters.includes(item)) {
+            array.mainFilters.push(item)
+            if (!array.totalFilters.includes(item)) {
+              array.totalFilters.push(item)
+            }
+          }
+        }
+      })
+      // console.log(array.totalFilters)
+      // console.log(array.mainFilters)
+      array = mainSearch(array, isFirstFilter)
       break
     default:
       break
@@ -108,7 +121,7 @@ export const deleteFilter = (filter, array) => {
   array.filtered = array.base
 
   if (array.mainFilters.length > 0) {
-    array = mainSearch(array)
+    array = mainSearch(array, true)
   }
 
   if (array.ingredientsFilters.length > 0) {

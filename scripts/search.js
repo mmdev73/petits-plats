@@ -1,4 +1,4 @@
-import { normalizeText } from './functions.js'
+import { normalizeText, hashFilter } from './functions.js'
 
 /**
  * Function to perform a main search on an array, filtering based on filter words.
@@ -6,36 +6,54 @@ import { normalizeText } from './functions.js'
  * @param {array} array - The input array containing base and filter words
  * @return {array} The modified input array after performing the main search
  */
-export const mainSearch = (array) => {
+export const mainSearch = (array, isFirstFilter = false) => {
   let baseArray = array.base
-  if (array.totalFilters.length > 1) {
+  if (array.totalFilters.length > 1 && !isFirstFilter) {
     baseArray = array.filtered
   }
-  baseArray = baseArray.filter((item) => {
-    return array.mainFilters.every((filter) => {
-      let found = false
-      let a = 0
-      let b = item.hashTab.length
-      do {
-        const m = Math.floor((a + b) / 2)
-        if (item.hashTab[m] === filter) {
-          found = true
+  for (let i = 0; i < array.mainFilters.length; i++) {
+    const foundRecipes = []
+    const hashWord = hashFilter(normalizeText(array.mainFilters[i]))
+    let a = 0
+    let b = array.hashTab.table.length - 1
+    do {
+      const m = Math.floor((a + b) / 2)
+      if (array.hashTab.table[m] === undefined) {
+        if (a < b) {
+          b = b + 1
+        } else {
+          a = a - 1
         }
-        if (item.hashTab[m] > filter) {
-          b = m - 1
+        continue
+      }
+      if (m === hashWord) {
+        for (let j = 0; j < array.hashTab.table[m].length; j++) {
+          if (array.hashTab.table[m][j][0] === array.mainFilters[i]) {
+            array.hashTab.table[m][j][1].forEach(id => {
+              if (!foundRecipes.includes(id)) {
+                foundRecipes.push(id)
+                array.filtered = baseArray.filter(recipe => {
+                  for (let i = 0; i < foundRecipes.length; i++) {
+                    if (recipe.id === foundRecipes[i]) {
+                      return true
+                    }
+                  }
+                  return false
+                })
+              }
+            })
+          }
         }
-        if (item.hashTab[m] < filter) {
-          a = m + 1
-        }
-        if (a > b) {
-          found = false
-        }
-      } while (!found && (a < b))
-      return found
-    })
+        break
+      } else if (m < hashWord) {
+        a = m + 1
+      } else {
+        b = m - 1
+      }
+    } while (a <= b)
   }
-  )
-  array.filtered = baseArray
+  // console.log({ baseArray })
+  // console.log(array.filtered)
   return array
 }
 
