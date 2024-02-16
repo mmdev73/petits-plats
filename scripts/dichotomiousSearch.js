@@ -39,27 +39,29 @@ export const createHashTab = (array) => {
 const HashTab = {
   table: [],
   size: 0,
+  /**
+   * Generates a hash value for the given key by summing the ASCII values of its characters and taking the modulus 100.
+   *
+   * @param {string} key - The key for which to generate a hash value.
+   * @return {number} The generated hash value.
+   */
   _hash (key) {
     let hash = 0
-    key = keepLettersOnly(normalizeText(key)) // normalizeText(key)
+    key = keepLettersOnly(normalizeText(key))
     for (let i = 0; i < key.length; i++) {
       hash += key.charCodeAt(i)
     }
-    // if (key === 'limonade' || key === 'riz') {
-    //   // ! PROBLEM HERE
-    //   console.log('KEY : ' + key + ' HASH : ' + hash + ' HASH MODULO 100 : ' + (hash % 100))
-    // }
     return hash % 100
   },
-  set (key, value) { // lait de coco, recipe.id
-    // if ([1, 2, 3, 21].includes(value)) {
-    //   console.log('Key: ' + key + ' Key Hashé : ' + this._hash(key) + ' Value: ' + value)
-    // }
+  /**
+   * Sets a key-value pair in the hash table.
+   *
+   * @param {type} key - the key to be set
+   * @param {type} value - the value to be set
+   * @return {void}
+   */
+  set (key, value) {
     const index = this._hash(key)
-    // if (key === 'limonade' || key === 'riz') {
-    //   // ! PROBLEM HERE
-    //   console.log('SET() | KEY : ' + key + ' HASH : ' + this._hash(key) + ' INDEX : ' + index + ' VALUE : ' + value)
-    // }
     if (this.table[index]) {
       for (let i = 0; i < this.table[index].length; i++) {
         if (this.table[index][i][0] === key) {
@@ -76,6 +78,12 @@ const HashTab = {
     }
     this.size++
   },
+  /**
+   * A function to retrieve the value associated with the given key from the hash table.
+   *
+   * @param {type} key - the key to retrieve the associated value
+   * @return {type} the value associated with the given key, or null if the key is not found
+   */
   get (key) {
     const index = this._hash(key)
     if (this.table[index]) {
