@@ -19,9 +19,7 @@ export const mainSearch = (array) => {
       ) {
         return true
       }
-      return array.mainFilters.every((filter) => {
-        return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
-      })
+      return item.ingredients.some(ingredients => normalizeText(ingredients.ingredient) === normalizeText(filter))
     })
   }
   )
