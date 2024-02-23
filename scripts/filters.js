@@ -40,9 +40,10 @@ export const pushFilter = (array, type, filterToPush) => {
           }
         }
       })
-      // console.log(array.totalFilters)
-      // console.log(array.mainFilters)
-      array = mainSearch(array, isFirstFilter)
+      if (array.totalFilters.length > 0) {
+        console.log(array.mainFilters)
+        array = mainSearch(array, isFirstFilter)
+      }
       break
     default:
       break
@@ -78,10 +79,13 @@ export const displayGlobalFilters = (array) => {
     selectFilterItemClose.addEventListener('click', (e) => {
       const t = e.currentTarget.parentNode
       const filter = t.textContent
+      console.log(array)
       deleteFilter(filter, array)
+      console.log(array)
     })
 
     document.querySelector('.selected__filter').appendChild(selectFilterItemDiv)
+    console.log(array)
   })
 }
 
@@ -135,7 +139,6 @@ export const deleteFilter = (filter, array) => {
   if (array.ustensilsFilters.length > 0) {
     array = searchUstensils(array)
   }
-
   displayDropdownContent(array)
   displayGlobalFilters(array)
   displayRecipesArticles(array)

@@ -62,6 +62,7 @@ export const toggleDropdownContent = (elemId = null, closeall = false) => {
  * @return {array} The updated array
  */
 export const displayDropdownContent = (array, type = null, search = false) => {
+  console.log(array)
   if (type === null && !search) {
     //* Feed all bases to dropdowns, then gen list and display each
     const { ingredients, appliances, ustensils } = getAllBaseDropdownLists((array.totalFilters.length > 0) ? array.filtered : array.base)
@@ -122,21 +123,22 @@ const genList = (array, type, searchInput = false) => {
   switch (type) {
     case 'ingredients':
       filtersArray = array.ingredientsFilters
-      arrayToDisplay = (array.filtered.length > 0) ? array.ingredientsFiltered : array.ingredientsBase
+      arrayToDisplay = (array.filtered.length > 0 && array.totalFilters.length > 0) ? array.ingredientsFiltered : array.ingredientsBase
       break
     case 'appliances':
       filtersArray = array.appliancesFilters
-      arrayToDisplay = (array.filtered.length > 0) ? array.appliancesFiltered : array.appliancesBase
+      arrayToDisplay = (array.filtered.length > 0 && array.totalFilters.length > 0) ? array.appliancesFiltered : array.appliancesBase
       break
     case 'ustensils':
       filtersArray = array.ustensilsFilters
-      arrayToDisplay = (array.filtered.length > 0) ? array.ustensilsFiltered : array.ustensilsBase
+      arrayToDisplay = (array.filtered.length > 0 && array.totalFilters.length > 0) ? array.ustensilsFiltered : array.ustensilsBase
       break
     default:
       break
   }
   if (searchInput) {
     arrayToDisplay = arrayToDisplay.filter(filter => filter.includes(searchInput))
+    console.log(arrayToDisplay)
   }
   const idListItems = 'dropdown-list-' + type
   const idListItemsFilter = 'dropdown-list-' + type + '-filter'

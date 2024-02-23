@@ -6,19 +6,19 @@ import { createHashTab } from './dichotomiousSearch.js'
 
 // Object which contains all bases and filtered list
 let refArray = {
-  base: [],
-  filtered: [],
-  mainFilters: [],
-  ingredientsBase: [],
-  ingredientsFiltered: [],
-  ingredientsFilters: [],
-  appliancesBase: [],
-  appliancesFiltered: [],
-  appliancesFilters: [],
-  ustensilsBase: [],
-  ustensilsFiltered: [],
-  ustensilsFilters: [],
-  totalFilters: []
+  base: [], // toute les recettes
+  filtered: [], // toutes les recettes filtrées
+  mainFilters: [], // les filtre principaux
+  ingredientsBase: [], // tous les ingredients
+  ingredientsFiltered: [], // les ingredients filtrés
+  ingredientsFilters: [], // les filtres d'ingredients
+  appliancesBase: [], // toutes les appliance
+  appliancesFiltered: [], // les appliance filtrées
+  appliancesFilters: [], // les filtres d'appareils
+  ustensilsBase: [], // tous les ustensils
+  ustensilsFiltered: [], // les ustensils filtrés
+  ustensilsFilters: [], // les filtres d'ustensils
+  totalFilters: [] // tous les filtres
 }
 // deep copy of recipes
 refArray.base = JSON.parse(JSON.stringify(recipes))
@@ -29,7 +29,7 @@ refArray.base = JSON.parse(JSON.stringify(recipes))
  * @param {Array} recipesArray - The array of recipes to be displayed.
  * @return {void} This function does not return any value.
  */
-export const displayRecipesArticles = (array) => {
+export const displayRecipesArticles = (array, searchInput = false) => {
   const recipesBox = document.querySelector('.recipes__box')
   const recipesCount = document.getElementById('recipes-result')
   // * Cosmetics
@@ -44,8 +44,17 @@ export const displayRecipesArticles = (array) => {
   if (array.totalFilters.length > 0) {
     recipesArray = array.filtered
   }
+  if (searchInput) {
+    recipesArray = recipesArray.filter((recipe) => {
+      if (normalizeText(recipe.name).includes(normalizeText(searchInput)) ||
+      normalizeText(recipe.description).includes(normalizeText(searchInput))) {
+        return true
+      }
+      return recipe.ingredients.some((ingredient) => normalizeText(ingredient.ingredient) === normalizeText(searchInput))
+    })
+  }
   if (recipesArray.length > 0) {
-    recipesArray.forEach((recipe) => {
+    recipesArray.forEach((recipe, index) => {
       const imgName = recipe.image.split('.')
       const imgLink = './assets/recipes/' + imgName[0] + '.webp'
       const articleDOM = document.createElement('article')
@@ -97,6 +106,7 @@ export const displayRecipesArticles = (array) => {
       contentDOM.appendChild(ingredientsListDOM)
       articleDOM.appendChild(figureDOM)
       articleDOM.appendChild(contentDOM)
+      recipesBox.appendChild(articleDOM)
       recipesBox.appendChild(articleDOM)
     })
   } else {
@@ -208,15 +218,30 @@ document.addEventListener('input', (e) => {
         break
       case 'input-srch':
         targetIcon.classList.add('inputsrch__box--close-active')
+        displayRecipesArticles(refArray, searchInput)
         break
       default:
         break
     }
-  }
-
-  if (searchInput.length < 3) {
-    targetIcon.classList.remove('dropdown__icon--close-active')
-    displayDropdownContent(refArray)
+  } else {
+    switch (iD) {
+      case 'dropdown__ingredients':
+      case 'dropdown__appliances':
+      case 'dropdown__ustensils':
+        if (searchInput.length < 3) {
+          targetIcon.classList.remove('dropdown__icon--close-active')
+          displayDropdownContent(refArray)
+        }
+        break
+      case 'input-srch':
+        if (searchInput.length < 3) {
+          targetIcon.classList.remove('inputsrch__box--close-active')
+          displayRecipesArticles(refArray)
+        }
+        break
+      default:
+        break
+    }
   }
 })
 

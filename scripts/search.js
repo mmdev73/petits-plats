@@ -11,15 +11,15 @@ export const mainSearch = (array, isFirstFilter = false) => {
   if (array.totalFilters.length > 1 && !isFirstFilter) {
     baseArray = array.filtered
   }
+  const foundRecipes = []
   for (let i = 0; i < array.mainFilters.length; i++) {
-    const foundRecipes = []
     const hashWord = hashFilter(normalizeText(array.mainFilters[i]))
     let a = 0
     let b = array.hashTab.table.length - 1
     do {
       const m = Math.floor((a + b) / 2)
       if (array.hashTab.table[m] === undefined) {
-        if (a < b) {
+        if (a < b && m < hashWord) {
           b = b + 1
         } else {
           a = a - 1
@@ -32,14 +32,6 @@ export const mainSearch = (array, isFirstFilter = false) => {
             array.hashTab.table[m][j][1].forEach(id => {
               if (!foundRecipes.includes(id)) {
                 foundRecipes.push(id)
-                array.filtered = baseArray.filter(recipe => {
-                  for (let i = 0; i < foundRecipes.length; i++) {
-                    if (recipe.id === foundRecipes[i]) {
-                      return true
-                    }
-                  }
-                  return false
-                })
               }
             })
           }
@@ -52,6 +44,14 @@ export const mainSearch = (array, isFirstFilter = false) => {
       }
     } while (a <= b)
   }
+  array.filtered = baseArray.filter(recipe => {
+    for (let i = 0; i < foundRecipes.length; i++) {
+      if (recipe.id === foundRecipes[i]) {
+        return true
+      }
+    }
+    return false
+  })
   // console.log({ baseArray })
   // console.log(array.filtered)
   return array
