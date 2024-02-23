@@ -28,7 +28,7 @@ refArray.base = JSON.parse(JSON.stringify(recipes))
  * @param {Array} recipesArray - The array of recipes to be displayed.
  * @return {void} This function does not return any value.
  */
-export const displayRecipesArticles = (array) => {
+export const displayRecipesArticles = (array, searchInput = false) => {
   const recipesBox = document.querySelector('.recipes__box')
   const recipesCount = document.getElementById('recipes-result')
   // * Cosmetics
@@ -42,6 +42,15 @@ export const displayRecipesArticles = (array) => {
   let recipesArray = array.base
   if (array.totalFilters.length > 0) {
     recipesArray = array.filtered
+  }
+  if (searchInput) {
+    recipesArray = recipesArray.filter((recipe) => {
+      if (normalizeText(recipe.name).includes(normalizeText(searchInput)) ||
+      normalizeText(recipe.description).includes(normalizeText(searchInput))) {
+        return true
+      }
+      return recipe.ingredients.some((ingredient) => normalizeText(ingredient.ingredient) === normalizeText(searchInput))
+    })
   }
   if (recipesArray.length > 0) {
     recipesArray.forEach((recipe) => {
@@ -204,6 +213,7 @@ document.addEventListener('input', (e) => {
         break
       case 'input-srch':
         targetIcon.classList.add('inputsrch__box--close-active')
+        displayRecipesArticles(refArray, searchInput)
         break
       default:
         break
@@ -211,8 +221,20 @@ document.addEventListener('input', (e) => {
   }
 
   if (searchInput.length < 3) {
-    targetIcon.classList.remove('dropdown__icon--close-active')
-    displayDropdownContent(refArray)
+    switch (iD) {
+      case 'dropdown__ingredients':
+      case 'dropdown__appliances':
+      case 'dropdown__ustensils':
+        targetIcon.classList.remove('dropdown__icon--close-active')
+        displayDropdownContent(refArray)
+        break
+      case 'input-srch':
+        targetIcon.classList.remove('inputsrch__box--close-active')
+        displayRecipesArticles(refArray)
+        break
+      default:
+        break
+    }
   }
 })
 
