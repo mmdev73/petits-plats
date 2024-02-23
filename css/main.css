@@ -41,10 +41,15 @@ HEADER
   position: relative;
 }
 .header__img {
-  height: 41.6875rem;
+  height: inherit;
+  width: 100%;
 }
 .header__content {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.cta_title {
+  line-height: 6rem !important;
 }
 
 .inputsrch__box--close {
@@ -260,4 +265,82 @@ RECIPES
   font-weight: 400;
   line-height: normal;
   color: #7A7A7A;
+}
+
+.error__container {
+  width: 80%;
+  height: 6.25rem;
+  margin: auto;
+  margin-bottom: 2.5rem;
+  background-color: rgba(228, 137, 0, 0.1);
+  border-radius: 1.25rem;
+  border: 0.0625rem solid rgb(228, 137, 0);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+.error__title {
+  font-family: "Anton", sans-serif;
+  font-size: 1.3rem;
+}
+.error__text {
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .header {
+    height: 31rem;
+  }
+  .cta {
+    margin-top: 4rem;
+  }
+  .cta_title {
+    line-height: 4rem !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .header {
+    width: 100%;
+    height: 21rem;
+  }
+  .cta {
+    margin-top: 2rem;
+  }
+  .cta_title {
+    line-height: 2rem !important;
+  }
+  .filter {
+    height: fit-content;
+    z-index: 10;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 1rem;
+  }
+  .filter__tag {
+    width: 100%;
+    position: inherit;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  .filter__recipesresult {
+    position: inherit;
+  }
+  .dropdown {
+    width: 100%;
+    margin-right: 0;
+  }
+  .recipes__box {
+    justify-content: center;
+    align-items: center;
+  }
+  .card {
+    width: 100%;
+  }
 }/*# sourceMappingURL=main.css.map */
