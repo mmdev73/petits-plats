@@ -298,6 +298,9 @@ RECIPES
   .cta_title {
     line-height: 4rem !important;
   }
+  .recipes__box {
+    justify-content: center;
+  }
 }
 @media screen and (max-width: 767px) {
   .header {
